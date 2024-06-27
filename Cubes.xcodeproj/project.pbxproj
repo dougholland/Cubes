@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CA0100182C2E223C00C4A31B /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = CA0100172C2E223C00C4A31B /* RealityKitContent */; };
 		CA01001A2C2E223C00C4A31B /* CubesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0100192C2E223C00C4A31B /* CubesApp.swift */; };
 		CA01001C2C2E223C00C4A31B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA01001B2C2E223C00C4A31B /* ContentView.swift */; };
-		CA01001E2C2E223C00C4A31B /* ImmersiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA01001D2C2E223C00C4A31B /* ImmersiveView.swift */; };
 		CA0100202C2E223C00C4A31B /* ImageBasedLighting.skybox in Resources */ = {isa = PBXBuildFile; fileRef = CA01001F2C2E223C00C4A31B /* ImageBasedLighting.skybox */; };
 		CA0100222C2E223D00C4A31B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA0100212C2E223D00C4A31B /* Assets.xcassets */; };
 		CA0100252C2E223D00C4A31B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA0100242C2E223D00C4A31B /* Preview Assets.xcassets */; };
@@ -18,10 +16,8 @@
 
 /* Begin PBXFileReference section */
 		CA0100122C2E223C00C4A31B /* Cubes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cubes.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA0100162C2E223C00C4A31B /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		CA0100192C2E223C00C4A31B /* CubesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubesApp.swift; sourceTree = "<group>"; };
 		CA01001B2C2E223C00C4A31B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		CA01001D2C2E223C00C4A31B /* ImmersiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmersiveView.swift; sourceTree = "<group>"; };
 		CA01001F2C2E223C00C4A31B /* ImageBasedLighting.skybox */ = {isa = PBXFileReference; lastKnownFileType = file.skybox; path = ImageBasedLighting.skybox; sourceTree = "<group>"; };
 		CA0100212C2E223D00C4A31B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA0100242C2E223D00C4A31B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -33,7 +29,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA0100182C2E223C00C4A31B /* RealityKitContent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,7 +39,6 @@
 			isa = PBXGroup;
 			children = (
 				CA0100142C2E223C00C4A31B /* Cubes */,
-				CA0100152C2E223C00C4A31B /* Packages */,
 				CA0100132C2E223C00C4A31B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -62,21 +56,12 @@
 			children = (
 				CA0100192C2E223C00C4A31B /* CubesApp.swift */,
 				CA01001B2C2E223C00C4A31B /* ContentView.swift */,
-				CA01001D2C2E223C00C4A31B /* ImmersiveView.swift */,
 				CA01001F2C2E223C00C4A31B /* ImageBasedLighting.skybox */,
 				CA0100212C2E223D00C4A31B /* Assets.xcassets */,
 				CA0100262C2E223D00C4A31B /* Info.plist */,
 				CA0100232C2E223D00C4A31B /* Preview Content */,
 			);
 			path = Cubes;
-			sourceTree = "<group>";
-		};
-		CA0100152C2E223C00C4A31B /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				CA0100162C2E223C00C4A31B /* RealityKitContent */,
-			);
-			path = Packages;
 			sourceTree = "<group>";
 		};
 		CA0100232C2E223D00C4A31B /* Preview Content */ = {
@@ -104,7 +89,6 @@
 			);
 			name = Cubes;
 			packageProductDependencies = (
-				CA0100172C2E223C00C4A31B /* RealityKitContent */,
 			);
 			productName = Cubes;
 			productReference = CA0100122C2E223C00C4A31B /* Cubes.app */;
@@ -163,7 +147,6 @@
 			files = (
 				CA01001C2C2E223C00C4A31B /* ContentView.swift in Sources */,
 				CA01001A2C2E223C00C4A31B /* CubesApp.swift in Sources */,
-				CA01001E2C2E223C00C4A31B /* ImmersiveView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,13 +346,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		CA0100172C2E223C00C4A31B /* RealityKitContent */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = RealityKitContent;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CA01000A2C2E223C00C4A31B /* Project object */;
 }
