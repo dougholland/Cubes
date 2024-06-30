@@ -12,5 +12,7 @@ While this is an exceptionally simple example of using SwiftUI and RealityKit on
 - Collision Detection
 - Audio
 
+The video below shows the Cubes sample running on an Apple Vision Pro with visionOS 1.2. 
+
 https://github.com/dougholland/Cubes/assets/11968218/4a16462b-39fd-4af1-a13a-c915fe5a00b2
 
