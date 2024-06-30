@@ -1,13 +1,14 @@
 //
 //  ContentView.swift
-//  Cubes
+//  RealityKitCubes
 //
-//  Created by Doug Holland on 6/27/24.
+//  Created by Doug Holland on 4/13/24.
 //
 
 import SwiftUI
 import RealityKit
 
+//@MainActor
 struct ContentView: View {
 
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
@@ -23,19 +24,33 @@ struct ContentView: View {
     @State var blueCube = Entity()
     @State var greenCube = Entity()
     
+    @State var gravity = false
+    
     var body: some View {
         RealityView { content in
             let cubeMesh = MeshResource.generateBox(size: 0.2)
             
             let planeMesh = MeshResource.generatePlane(width: 1.5, depth: 0.8, cornerRadius: 0.15)
             
+            let planeShape = [ShapeResource.generateBox(size: [1.5, 0.01, 0.8])]
+            
             let planeMaterial = SimpleMaterial(color: .lightGray, isMetallic: false)
             
             plane = ModelEntity(mesh: planeMesh, materials: [planeMaterial])
             
+            plane.name = "Plane"
+            
+            plane.components.set(CollisionComponent(shapes: planeShape))
+            
+            var planePhysicsBody = PhysicsBodyComponent(shapes: planeShape, mass: 1.0, material: .default, mode: .dynamic)
+            
+            planePhysicsBody.mode = .static
+            
+            plane.components.set(planePhysicsBody)
+            
             plane.generateCollisionShapes(recursive: false)
             
-            plane.transform.translation = SIMD3<Float>(x: 0, y: -0.65, z: 0)
+            plane.transform.translation = SIMD3<Float>(x: 0, y: -1.0, z: 0)
             
             content.add(plane)
             
@@ -45,11 +60,26 @@ struct ContentView: View {
             
             blueCube.name = "Blue Cube"
             
+            let cubeShape = [ShapeResource.generateBox(size: [0.2, 0.2, 0.2])]
+            
+            var cubePhysicsBody = PhysicsBodyComponent(shapes: cubeShape, mass: 1.0, material: .default, mode: .dynamic)
+            
+            cubePhysicsBody.mode = .static
+            
+            blueCube.components.set(cubePhysicsBody)
+            
+            blueCube.components.set(CollisionComponent(shapes: cubeShape))
+            
             blueCube.components.set(InputTargetComponent())
             
             blueCube.components.set(GroundingShadowComponent(castsShadow: true))
 
             blueCube.generateCollisionShapes(recursive: false)
+            
+            print("blueCube.position = \(blueCube.position)")
+            print("blueCube.transform.rotation = \(blueCube.transform.rotation)")
+            
+            blueCube.transform.translation = SIMD3<Float>(x: 0, y: -0.5, z: 0)
             
             content.add(blueCube)
             
@@ -59,13 +89,18 @@ struct ContentView: View {
             
             redCube.name = "Red Cube"
             
+            redCube.components.set(cubePhysicsBody)
+            
             redCube.components.set(InputTargetComponent())
             
             redCube.components.set(GroundingShadowComponent(castsShadow: true))
             
             redCube.generateCollisionShapes(recursive: false)
 
-            redCube.transform.translation = SIMD3<Float>(x: -0.5, y: 0, z: 0)
+            redCube.transform.translation = SIMD3<Float>(x: -0.5, y: -0.5, z: 0)
+            
+            print("redCube.position = \(redCube.position)")
+            print("redCube.transform.rotation = \(redCube.transform.rotation)")
             
             content.add(redCube)
             
@@ -75,20 +110,42 @@ struct ContentView: View {
             
             greenCube.name = "Green Cube"
             
+            greenCube.components.set(cubePhysicsBody)
+            
             greenCube.components.set(InputTargetComponent())
             
             greenCube.components.set(GroundingShadowComponent(castsShadow: true))
             
             greenCube.generateCollisionShapes(recursive: false)
             
-            greenCube.transform.translation = SIMD3<Float>(x: 0.5, y: 0, z: 0)
+            greenCube.transform.translation = SIMD3<Float>(x: 0.5, y: -0.5, z: 0)
+            
+            print("greenCube.position = \(greenCube.position)")
+            print("greenCube.transform.rotation = \(greenCube.transform.rotation)")
             
             content.add(greenCube)
             
-            // rotate the cube 45 degrees on the x and y axis.
-            blueCube.transform.rotation = simd_quatf(angle: 22, axis: SIMD3(x: 0, y: 1, z: 0))
+            // _ = advises Swift to ignore the return value.
+            _ = content.subscribe(to: CollisionEvents.Began.self, on: redCube) { event in
+                print("collision started \(event.entityA.name), \(event.entityB.name))")
+                Task {
+                    try? await playCollisionAudio(from: redCube)
+                }
+            }
             
-            blueCube.transform.rotation = simd_quatf(angle: 45, axis: SIMD3(x: 1, y: 0, z: 0))
+            _ = content.subscribe(to: CollisionEvents.Began.self, on: greenCube) { event in
+                print("collision started \(event.entityA.name), \(event.entityB.name))")
+                Task {
+                    try? await playCollisionAudio(from: greenCube)
+                }
+            }
+            
+            _ = content.subscribe(to: CollisionEvents.Began.self, on: blueCube) { event in
+                print("collision started \(event.entityA.name), \(event.entityB.name))")
+                Task {
+                    try? await playCollisionAudio(from: blueCube)
+                }
+            }
         } update: { content in
         /*
             if let scene = content.entities.first {
@@ -110,6 +167,8 @@ struct ContentView: View {
                     redCube.transform.matrix = matrix_multiply(matrix1, matrix2)
                     
                     redCube.position.x = -0.5
+                    
+                    redCube.position.y = -0.5
                 }
         )
         .gesture(
@@ -124,6 +183,8 @@ struct ContentView: View {
                     greenCube.transform.matrix = matrix_multiply(matrix1, matrix2)
                     
                     greenCube.position.x = 0.5
+                    
+                    greenCube.position.y = -0.5
                 }
         )
         .gesture(
@@ -136,8 +197,64 @@ struct ContentView: View {
                     let matrix2 = Transform(yaw: Float(blueRotation.radians)).matrix
                     
                     blueCube.transform.matrix = matrix_multiply(matrix1, matrix2)
+                    
+                    blueCube.position.y = -0.5
                 }
         )
+        .toolbar {
+            ToolbarItem(placement: .bottomOrnament) {
+                Button("Reset", systemImage: "globe") {
+                    reset()
+                }
+            }
+            
+            ToolbarItem(placement: .bottomOrnament) {
+                Toggle(isOn: $gravity, label: {
+                    Text("Gravity")
+                })
+                .onChange(of: gravity) { oldValue, newValue in
+                    if gravity {
+                        enableGravity()
+                    }
+                }
+            }
+        }
+    }
+    
+    func enableGravity() {
+        redCube.components[PhysicsBodyComponent.self]?.mode = .dynamic
+        
+        blueCube.components[PhysicsBodyComponent.self]?.mode = .dynamic
+        
+        greenCube.components[PhysicsBodyComponent.self]?.mode = .dynamic
+    }
+    
+    func reset() {
+        gravity = false
+        
+        redCube.components[PhysicsBodyComponent.self]?.mode = .static
+        redCube.position = SIMD3<Float>(-0.5, -0.5, 0.0)
+        redCube.transform.rotation = simd_quatf(angle: 0, axis: SIMD3(x: 1, y: 1, z: 1))
+        
+        blueCube.components[PhysicsBodyComponent.self]?.mode = .static
+        blueCube.position = SIMD3<Float>(0.0, -0.5, 0.0)
+        blueCube.transform.rotation = simd_quatf(angle: 0, axis: SIMD3(x: 1, y: 1, z: 1))
+        
+        greenCube.components[PhysicsBodyComponent.self]?.mode = .static
+        greenCube.position = SIMD3<Float>(0.5, -0.5, 0.0)
+        greenCube.transform.rotation = simd_quatf(angle: 0, axis: SIMD3(x: 1, y: 1, z: 1))
+    }
+    
+    @MainActor
+    func playCollisionAudio(from cube: Entity) async throws {
+        let resource = try await AudioFileResource(named: "CubeCollision", configuration: AudioFileResource.Configuration(shouldLoop: false, shouldRandomizeStartTime: false))
+        
+        // without @MainActor - await cube.playAudio(resource)
+        let controller: AudioPlaybackController = cube.playAudio(resource)
+        
+        // controller.gain = -.infinity
+        
+        controller.fade(to: .zero, duration: 0.4)
     }
 }
 

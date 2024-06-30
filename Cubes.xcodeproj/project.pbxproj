@@ -12,6 +12,7 @@
 		CA0100202C2E223C00C4A31B /* ImageBasedLighting.skybox in Resources */ = {isa = PBXBuildFile; fileRef = CA01001F2C2E223C00C4A31B /* ImageBasedLighting.skybox */; };
 		CA0100222C2E223D00C4A31B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA0100212C2E223D00C4A31B /* Assets.xcassets */; };
 		CA0100252C2E223D00C4A31B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA0100242C2E223D00C4A31B /* Preview Assets.xcassets */; };
+		CA5E9E072C30F92D00EF63BF /* CubeCollision.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CA5E9E062C30F92D00EF63BF /* CubeCollision.aiff */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		CA0100212C2E223D00C4A31B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA0100242C2E223D00C4A31B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		CA0100262C2E223D00C4A31B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA5E9E062C30F92D00EF63BF /* CubeCollision.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = CubeCollision.aiff; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		CA0100142C2E223C00C4A31B /* Cubes */ = {
 			isa = PBXGroup;
 			children = (
+				CA5E9E032C30F91000EF63BF /* Resources */,
 				CA0100192C2E223C00C4A31B /* CubesApp.swift */,
 				CA01001B2C2E223C00C4A31B /* ContentView.swift */,
 				CA01001F2C2E223C00C4A31B /* ImageBasedLighting.skybox */,
@@ -70,6 +73,30 @@
 				CA0100242C2E223D00C4A31B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		CA5E9E032C30F91000EF63BF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CA5E9E042C30F91900EF63BF /* Audio */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CA5E9E042C30F91900EF63BF /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				CA5E9E052C30F91E00EF63BF /* Collisions */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		CA5E9E052C30F91E00EF63BF /* Collisions */ = {
+			isa = PBXGroup;
+			children = (
+				CA5E9E062C30F92D00EF63BF /* CubeCollision.aiff */,
+			);
+			path = Collisions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA0100222C2E223D00C4A31B /* Assets.xcassets in Resources */,
+				CA5E9E072C30F92D00EF63BF /* CubeCollision.aiff in Resources */,
 				CA0100252C2E223D00C4A31B /* Preview Assets.xcassets in Resources */,
 				CA0100202C2E223C00C4A31B /* ImageBasedLighting.skybox in Resources */,
 			);
