@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  RealityKitCubes
+//  Cubes
 //
 //  Created by Doug Holland on 4/13/24.
 //
@@ -8,7 +8,6 @@
 import SwiftUI
 import RealityKit
 
-//@MainActor
 struct ContentView: View {
 
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
@@ -125,24 +124,26 @@ struct ContentView: View {
             
             content.add(greenCube)
             
-            // _ = advises Swift to ignore the return value.
             _ = content.subscribe(to: CollisionEvents.Began.self, on: redCube) { event in
-                print("collision started \(event.entityA.name), \(event.entityB.name))")
                 Task {
+                    print("collision started \(event.entityA.name), \(event.entityB.name))")
+                    
                     try? await playCollisionAudio(from: redCube)
                 }
             }
             
             _ = content.subscribe(to: CollisionEvents.Began.self, on: greenCube) { event in
-                print("collision started \(event.entityA.name), \(event.entityB.name))")
                 Task {
+                    print("collision started \(event.entityA.name), \(event.entityB.name))")
+                    
                     try? await playCollisionAudio(from: greenCube)
                 }
             }
             
             _ = content.subscribe(to: CollisionEvents.Began.self, on: blueCube) { event in
-                print("collision started \(event.entityA.name), \(event.entityB.name))")
                 Task {
+                    print("collision started \(event.entityA.name), \(event.entityB.name))")
+                    
                     try? await playCollisionAudio(from: blueCube)
                 }
             }
@@ -245,16 +246,13 @@ struct ContentView: View {
         greenCube.transform.rotation = simd_quatf(angle: 0, axis: SIMD3(x: 1, y: 1, z: 1))
     }
     
-    @MainActor
     func playCollisionAudio(from cube: Entity) async throws {
         let resource = try await AudioFileResource(named: "CubeCollision", configuration: AudioFileResource.Configuration(shouldLoop: false, shouldRandomizeStartTime: false))
         
         // without @MainActor - await cube.playAudio(resource)
-        let controller: AudioPlaybackController = cube.playAudio(resource)
+        let controller: AudioPlaybackController = await cube.playAudio(resource)
         
-        // controller.gain = -.infinity
-        
-        controller.fade(to: .zero, duration: 0.4)
+        await controller.fade(to: .zero, duration: 0.5)
     }
 }
 
