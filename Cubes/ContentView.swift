@@ -249,9 +249,9 @@ struct ContentView: View {
     func playCollisionAudio(from cube: Entity) async throws {
         let resource = try await AudioFileResource(named: "CubeCollision", configuration: AudioFileResource.Configuration(shouldLoop: false, shouldRandomizeStartTime: false))
         
-        let controller: AudioPlaybackController = await cube.playAudio(resource)
+        let controller: AudioPlaybackController = cube.playAudio(resource)
         
-        await controller.fade(to: .zero, duration: 0.5)
+        controller.fade(to: .zero, duration: 0.5)
     }
 }
 
