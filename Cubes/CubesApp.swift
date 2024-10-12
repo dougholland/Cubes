@@ -13,7 +13,7 @@ struct CubesApp: App {
         WindowGroup {
             ContentView()
         }.windowStyle(.volumetric)
-        // set the default volume size to 2 meters in width, height and depth.
+        // set the default volume size to 5 meters in width, height and depth.
         .defaultSize(width: 5, height: 5, depth: 5, in: .meters)
     }
 }
