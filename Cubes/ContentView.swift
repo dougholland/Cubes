@@ -146,14 +146,6 @@ struct ContentView: View {
                     try? await playCollisionAudio(from: blueCube)
                 }
             }
-        } update: { content in
-        /*
-            if let scene = content.entities.first {
-                Task {
-                    
-                }
-            }
-         */
         }
         .gesture(
             DragGesture()
